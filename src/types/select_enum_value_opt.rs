@@ -23,7 +23,7 @@ impl<TItem: AsStr + Clone + 'static + EnumIterator<TItem = TItem>> SelectEnumVal
         self
     }
 
-    pub fn validation_ok(&self) -> bool {
+    pub fn validate(&self) -> bool {
         if self.allow_null_result {
             return true;
         }

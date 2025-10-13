@@ -62,22 +62,8 @@ impl<T: PartialEq + PartialOrd + Display + FromStr + 'static> InputValue<T> {
     pub fn set_string_value(&mut self, value: String) {
         self.value = Rc::new(value);
     }
-}
 
-impl<T: PartialEq + PartialOrd + Display + FromStr + 'static> From<T> for InputValue<T> {
-    fn from(value: T) -> Self {
-        Self::new(value)
-    }
-}
-
-impl<T: PartialEq + PartialOrd + Display + FromStr + 'static> AsStr for InputValue<T> {
-    fn as_str(&self) -> &str {
-        &self.value
-    }
-}
-
-impl<T: PartialEq + PartialOrd + Display + FromStr + 'static> ValueValidator for InputValue<T> {
-    fn validate_value(&self) -> Result<(), ValueValidationResult> {
+    pub fn validate(&self) -> Result<(), ValueValidationResult> {
         if self.value.len() == 0 {
             return Err(ValueValidationResult::Empty);
         }
@@ -104,5 +90,23 @@ impl<T: PartialEq + PartialOrd + Display + FromStr + 'static> ValueValidator for
         }
 
         Ok(())
+    }
+}
+
+impl<T: PartialEq + PartialOrd + Display + FromStr + 'static> From<T> for InputValue<T> {
+    fn from(value: T) -> Self {
+        Self::new(value)
+    }
+}
+
+impl<T: PartialEq + PartialOrd + Display + FromStr + 'static> AsStr for InputValue<T> {
+    fn as_str(&self) -> &str {
+        &self.value
+    }
+}
+
+impl<T: PartialEq + PartialOrd + Display + FromStr + 'static> ValueValidator for InputValue<T> {
+    fn validate_value(&self) -> Result<(), ValueValidationResult> {
+        self.validate_value()
     }
 }
