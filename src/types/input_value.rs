@@ -107,6 +107,6 @@ impl<T: PartialEq + PartialOrd + Display + FromStr + 'static> AsStr for InputVal
 
 impl<T: PartialEq + PartialOrd + Display + FromStr + 'static> ValueValidator for InputValue<T> {
     fn validate_value(&self) -> Result<(), ValueValidationResult> {
-        self.validate_value()
+        self.validate()
     }
 }

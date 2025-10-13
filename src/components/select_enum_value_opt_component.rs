@@ -15,7 +15,7 @@ pub fn select_enum_value_opt<
 ) -> Element {
     let selected = value_selector.get_value();
 
-    let items = value_selector.get_all().into_iter().map(|itm| {
+    let items = TItem::get_all().into_iter().map(|itm| {
         let selected = Some(itm) == selected;
         rsx! {
             option { selected, value: itm.as_str(), {itm.as_str()} }

@@ -4,16 +4,13 @@ use rust_extensions::AsStr;
 #[derive(Debug, Clone)]
 pub struct SelectEnumValueOpt<TItem: AsStr + Clone + 'static + EnumIterator<TItem = TItem>> {
     selected: Option<TItem>,
-    all_options: &'static [TItem],
     allow_null_result: bool,
 }
 
 impl<TItem: AsStr + Clone + 'static + EnumIterator<TItem = TItem>> SelectEnumValueOpt<TItem> {
     pub fn new(item: Option<TItem>) -> Self {
-        let items = TItem::get_all();
         Self {
             selected: item,
-            all_options: items,
             allow_null_result: true,
         }
     }
@@ -29,10 +26,6 @@ impl<TItem: AsStr + Clone + 'static + EnumIterator<TItem = TItem>> SelectEnumVal
         }
 
         self.selected.is_some()
-    }
-
-    pub fn get_all(&self) -> &'static [TItem] {
-        self.all_options
     }
 
     pub fn get_value(&self) -> Option<&TItem> {
