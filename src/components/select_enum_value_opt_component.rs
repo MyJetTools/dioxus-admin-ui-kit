@@ -1,6 +1,6 @@
 use std::str::FromStr;
 
-use crate::types::SelectEnumValue;
+use crate::types::SelectEnumValueOpt;
 use dioxus::prelude::*;
 use rust_extensions::AsStr;
 
@@ -8,7 +8,7 @@ const NULL_VALUE: &'static str = "---NULL---";
 
 pub fn select_enum_value_opt<TItem: Eq + Clone + 'static + AsStr + FromStr>(
     caption: &str,
-    value_selector: &SelectEnumValue<TItem>,
+    value_selector: &SelectEnumValueOpt<TItem>,
     on_input: EventHandler<Option<TItem>>,
 ) -> Element {
     let selected = value_selector.get_value();

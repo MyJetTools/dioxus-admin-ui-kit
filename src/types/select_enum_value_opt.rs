@@ -2,13 +2,13 @@ use super::*;
 use rust_extensions::AsStr;
 
 #[derive(Debug, Clone)]
-pub struct SelectEnumValue<TItem: AsStr + Clone + 'static> {
+pub struct SelectEnumValueOpt<TItem: AsStr + Clone + 'static> {
     selected: Option<TItem>,
     all_options: &'static [TItem],
     allow_null_result: bool,
 }
 
-impl<TItem: AsStr + Clone + 'static> SelectEnumValue<TItem> {
+impl<TItem: AsStr + Clone + 'static> SelectEnumValueOpt<TItem> {
     pub fn new<TEnumIterator: EnumIterator<TItem = TItem>>(item: Option<TItem>) -> Self {
         let items = TEnumIterator::get_all();
         Self {
