@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 use rust_extensions::AsStr;
 use serde::{Deserialize, Serialize};
 
@@ -234,6 +236,15 @@ impl EnumIterator for TimeOffset {
 impl AsStr for TimeOffset {
     fn as_str(&self) -> &'static str {
         self.as_str()
+    }
+}
+
+impl FromStr for TimeOffset {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let result = Self::from_str(s);
+        Ok(result)
     }
 }
 
