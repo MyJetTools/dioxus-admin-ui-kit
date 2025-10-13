@@ -1,8 +1,7 @@
 use dioxus::prelude::*;
+use rust_common::validators::*;
 use rust_extensions::AsStr;
 use std::marker::PhantomData;
-
-use crate::validators::*;
 
 pub struct InputValueComponent<'s, TValue: 'static + AsStr + ValueValidator> {
     caption: &'s str,
