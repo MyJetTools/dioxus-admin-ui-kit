@@ -4,3 +4,5 @@ mod select_enum_value_opt_component;
 pub use select_enum_value_opt_component::*;
 mod select_enum_value;
 pub use select_enum_value::*;
+mod input_bool;
+pub use input_bool::*;
