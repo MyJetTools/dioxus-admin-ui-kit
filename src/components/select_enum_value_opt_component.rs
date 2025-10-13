@@ -1,12 +1,14 @@
 use std::str::FromStr;
 
-use crate::types::SelectEnumValueOpt;
+use crate::types::*;
 use dioxus::prelude::*;
 use rust_extensions::AsStr;
 
 const NULL_VALUE: &'static str = "---NULL---";
 
-pub fn select_enum_value_opt<TItem: Eq + Clone + 'static + AsStr + FromStr>(
+pub fn select_enum_value_opt<
+    TItem: Eq + Clone + 'static + AsStr + FromStr + EnumIterator<TItem = TItem>,
+>(
     caption: &str,
     value_selector: &SelectEnumValueOpt<TItem>,
     on_input: EventHandler<Option<TItem>>,
