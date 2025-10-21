@@ -2,7 +2,7 @@ use std::{fmt::Display, marker::PhantomData, str::FromStr};
 
 use rust_common::validators::ValueValidationResult;
 
-#[derive(Clone, Eq, PartialEq, Debug)]
+#[derive(Clone, Eq, PartialEq, Debug, Default)]
 pub struct InputValueOpt<T: PartialEq + PartialOrd + Display + FromStr + 'static> {
     init_value: String,
     value: String,
