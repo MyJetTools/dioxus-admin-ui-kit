@@ -7,6 +7,17 @@ pub struct SelectEnumValueOpt<TItem: AsStr + Clone + 'static + EnumIterator<TIte
     allow_null_result: bool,
 }
 
+impl<TItem: AsStr + Clone + 'static + EnumIterator<TItem = TItem>> Default
+    for SelectEnumValueOpt<TItem>
+{
+    fn default() -> Self {
+        Self {
+            selected: Default::default(),
+            allow_null_result: true,
+        }
+    }
+}
+
 impl<TItem: AsStr + Clone + 'static + EnumIterator<TItem = TItem>> SelectEnumValueOpt<TItem> {
     pub fn new(item: Option<TItem>) -> Self {
         Self {
