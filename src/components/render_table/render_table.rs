@@ -1,16 +1,18 @@
 use super::TableItem;
 use dioxus::prelude::*;
-use std::{marker::PhantomData, rc::Rc};
+use std::marker::PhantomData;
 
-pub struct RenderTable<'s, TItem: TableItem> {
+pub struct RenderTable<'s, TItem: TableItem + 'static, MyIterator: Iterator<Item = &'s TItem>> {
     phantom: PhantomData<TItem>,
     table_classes: Vec<&'static str>,
-    items: &'s [Rc<TItem>],
+    items: MyIterator,
     wrapped_div: Option<&'static str>,
 }
 
-impl<'s, TItem: TableItem> RenderTable<'s, TItem> {
-    pub fn new(items: &'s [Rc<TItem>]) -> Self {
+impl<'s, TItem: TableItem + 'static, MyIterator: Iterator<Item = &'s TItem>>
+    RenderTable<'s, TItem, MyIterator>
+{
+    pub fn new(items: MyIterator) -> Self {
         Self {
             phantom: Default::default(),
             table_classes: Default::default(),
@@ -32,7 +34,7 @@ impl<'s, TItem: TableItem> RenderTable<'s, TItem> {
     fn render_content(
         self,
         header_action: Option<Element>,
-        line_action: impl Fn(&Rc<TItem>) -> Element,
+        line_action: impl Fn(&TItem) -> Element,
     ) -> Element {
         let table_classes = self.table_classes.join(" ");
 
@@ -117,7 +119,7 @@ impl<'s, TItem: TableItem> RenderTable<'s, TItem> {
     pub fn render_line_with_actions(
         self,
         header_action: Element,
-        line_action: impl Fn(&Rc<TItem>) -> Element,
+        line_action: impl Fn(&TItem) -> Element,
     ) -> Element {
         self.render_content(Some(header_action), line_action)
     }
