@@ -10,11 +10,11 @@ pub struct RenderTable<'s, TItem: TableItem> {
 }
 
 impl<'s, TItem: TableItem> RenderTable<'s, TItem> {
-    pub fn new() -> Self {
+    pub fn new(items: &'s [Rc<TItem>]) -> Self {
         Self {
             phantom: Default::default(),
             table_classes: Default::default(),
-            items: &[],
+            items,
             wrapped_div: Default::default(),
         }
     }
@@ -26,11 +26,6 @@ impl<'s, TItem: TableItem> RenderTable<'s, TItem> {
 
     pub fn with_class(mut self, classes: &[&'static str]) -> Self {
         self.table_classes.extend_from_slice(classes);
-        self
-    }
-
-    pub fn set_items(mut self, items: &'s [Rc<TItem>]) -> Self {
-        self.items = items;
         self
     }
 
