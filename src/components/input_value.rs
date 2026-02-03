@@ -34,7 +34,7 @@ impl<'s, TValue: 'static + AsStr + ValueValidator> InputValueComponent<'s, TValu
         self
     }
 
-    pub fn on_input(mut self, on_input: impl Fn(String) + 'static) -> Self {
+    pub fn on_input(mut self, on_input: impl FnMut(String) + 'static) -> Self {
         self.on_input = Some(EventHandler::new(on_input));
         self
     }
