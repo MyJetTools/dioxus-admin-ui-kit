@@ -6,3 +6,5 @@ mod select_enum_value;
 pub use select_enum_value::*;
 mod input_bool;
 pub use input_bool::*;
+mod render_table;
+pub use render_table::*;
