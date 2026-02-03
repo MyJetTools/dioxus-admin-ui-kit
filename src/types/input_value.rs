@@ -3,7 +3,7 @@ use std::{fmt::Display, marker::PhantomData, rc::Rc, str::FromStr};
 use rust_common::validators::{ValueValidationResult, ValueValidator};
 use rust_extensions::AsStr;
 
-#[derive(Clone, Eq, PartialEq, Debug)]
+#[derive(Clone, Eq, PartialEq, Debug, Default)]
 pub struct InputValue<T: PartialEq + PartialOrd + Display + FromStr + 'static> {
     init_value: Rc<String>,
     value: Rc<String>,
