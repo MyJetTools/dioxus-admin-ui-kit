@@ -52,11 +52,13 @@ impl<T: PartialEq + PartialOrd + Display + FromStr + 'static> InputValue<T> {
         }
     }
 
-    pub fn set_min_value_mut(&mut self, min_value: T) {
+    pub fn set_min_value_mut(mut self, min_value: T) -> Self {
         self.min_value = Some(min_value);
+        self
     }
-    pub fn set_max_value_mut(&mut self, max_value: T) {
+    pub fn set_max_value_mut(mut self, max_value: T) -> Self {
         self.max_value = Some(max_value);
+        self
     }
 
     pub fn set_string_value(&mut self, value: String) {
