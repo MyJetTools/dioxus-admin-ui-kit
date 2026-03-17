@@ -232,6 +232,76 @@ let valid: bool = selector.validate();
 
 Implement on your enum to use with `select_enum_value` / `select_enum_value_opt`.
 
+**Standard pattern** (mirrors real project usage):
+
+```rust
+use dioxus_admin_ui_kit::types::EnumIterator;
+use rust_extensions::AsStr;
+use serde::{Deserialize, Serialize};
+use std::str::FromStr;
+
+// ✅ Required derives: Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
+pub enum InstrumentType {
+    #[default]
+    Forex,
+    Cfd,
+    Crypto,
+}
+
+impl InstrumentType {
+    // ✅ ALL constant — used by EnumIterator::get_all()
+    pub const ALL: &'static [Self] = &[Self::Forex, Self::Cfd, Self::Crypto];
+}
+
+// ✅ AsStr — always implemented (used in both UI and non-UI contexts)
+impl AsStr for InstrumentType {
+    fn as_str(&self) -> &'static str {
+        match self {
+            Self::Forex => "Forex",
+            Self::Cfd => "CFD",
+            Self::Crypto => "Crypto",
+        }
+    }
+}
+
+impl FromStr for InstrumentType {
+    type Err = ();
+    fn from_str(s: &str) -> Result<Self, ()> {
+        Self::ALL.iter().find(|v| v.as_str() == s).copied().ok_or(())
+    }
+}
+
+// ✅ EnumIterator — for dioxus UI selectors
+impl EnumIterator for InstrumentType {
+    type TItem = Self;
+    fn get_value(&self) -> Self { *self }
+    fn get_all() -> &'static [Self] { Self::ALL }
+}
+```
+
+**Calling `select_enum_value`** — pass value by **copy** (not reference):
+
+```rust
+// ✅ CORRECT — InstrumentType is Copy
+select_enum_value("Type", cs_ra.tp, EventHandler::new(move |v: InstrumentType| cs.write().tp = v))
+
+// ❌ WRONG — &cs_ra.tp doesn't satisfy EnumIterator bound
+select_enum_value("Type", &cs_ra.tp, ...)
+```
+
+**Dependency**: `rust-extensions` must be a **direct** dependency in `Cargo.toml` (not via `service-sdk`), because `service-sdk` is `optional = true` (server feature only) and enum types are used on the web side too:
+
+```toml
+rust-extensions = { tag = "0.1.5", git = "https://github.com/MyJetTools/rust-extensions.git" }
+```
+
+---
+
+### `EnumIterator` trait — original minimal example
+
+Implement on your enum to use with `select_enum_value` / `select_enum_value_opt`.
+
 ```rust
 use dioxus_admin_ui_kit::types::EnumIterator;
 use rust_extensions::AsStr;
