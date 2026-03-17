@@ -7,7 +7,7 @@ use rust_extensions::AsStr;
 const NULL_VALUE: &'static str = "---NULL---";
 
 pub fn select_enum_value_opt<
-    TItem: Eq + Clone + 'static + AsStr + FromStr + EnumIterator<TItem = TItem>,
+    TItem: PartialEq + Clone + 'static + AsStr + FromStr + EnumIterator<TItem = TItem>,
 >(
     caption: &str,
     value_selector: &SelectEnumValueOpt<TItem>,

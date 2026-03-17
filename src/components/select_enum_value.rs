@@ -4,7 +4,7 @@ use rust_extensions::AsStr;
 use std::str::FromStr;
 
 pub fn select_enum_value<
-    TItem: Eq + Clone + Default + 'static + AsStr + FromStr,
+    TItem: PartialEq + Clone + Default + 'static + AsStr + FromStr,
     TEnumIterator: EnumIterator<TItem = TItem>,
 >(
     caption: &str,
